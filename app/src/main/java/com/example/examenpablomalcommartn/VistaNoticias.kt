@@ -5,14 +5,14 @@ import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.os.Bundle
+import android.widget.Button
 import android.widget.ImageView
+import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 
-class MainActivity : AppCompatActivity() {
+class VistaNoticias : AppCompatActivity() {
 
     private val modoAvion = object : BroadcastReceiver() {
 
@@ -30,17 +30,30 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-        setContentView(R.layout.activity_main)
+        setContentView(R.layout.vistanoticias)
         registerReceiver(modoAvion, IntentFilter(Intent.ACTION_AIRPLANE_MODE_CHANGED))
-        val imagen = findViewById<ImageView>(R.id.newbutton)
+        val buttonCompartir = findViewById<Button>(R.id.buttonCompartir)
+        val tituloNoticia = intent.getStringExtra("Titulo")
+        val contenidoNoticia = intent.getStringExtra("contenidos")
+        val TextViewtituloNoticia = findViewById<TextView>(R.id.tituloNoticia)
+        val TextViewcontenidoNoticia = findViewById<TextView>(R.id.contenidoNoticia)
+        TextViewtituloNoticia.text = tituloNoticia
+        TextViewcontenidoNoticia.text = contenidoNoticia
 
-        imagen.setOnClickListener{
-            val intent = Intent(this, ListaNoticias::class.java)
-            startActivity(intent)
+        buttonCompartir.setOnClickListener{
+            var contenidoCompartir = TextViewcontenidoNoticia.text.toString()
+            val sendIntent: Intent = Intent().apply {
+                action = Intent.ACTION_SEND
+                putExtra(Intent.EXTRA_TEXT, "$contenidoCompartir")
+                type = "text/plain"
+            }
+
+            val shareIntent = Intent.createChooser(sendIntent, null)
+            startActivity(shareIntent)
         }
 
-    }
 
+    }
     fun mostrarToats(boolean: Boolean){
 
         if (boolean) {

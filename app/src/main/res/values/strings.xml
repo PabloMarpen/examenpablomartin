@@ -6,4 +6,10 @@
         <item>Cultura</item>
         <item>Deportes</item>
     </string-array>
+    <string-array name="Seleccion1">
+        <item>Politica</item>
+        <item>Economia</item>
+        <item>Cultura</item>
+
+    </string-array>
 </resources>
