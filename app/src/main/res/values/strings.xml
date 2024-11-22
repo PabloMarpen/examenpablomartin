@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">ExamenPabloMalcomMartín</string>
+    <string-array name="Seleccion">
+        <item>Politica</item>
+        <item>Economia</item>
+        <item>Cultura</item>
+        <item>Deportes</item>
+    </string-array>
+</resources>
