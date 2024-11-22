@@ -4,6 +4,7 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
+import android.hardware.biometrics.BiometricManager.Strings
 import android.os.Bundle
 import android.view.View
 import android.widget.AdapterView
@@ -18,7 +19,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 
 class ListaNoticias : AppCompatActivity(), AdapterView.OnItemSelectedListener {
-
+    private var Filtro = ""
     private val modoAvion = object : BroadcastReceiver() {
 
         override fun onReceive(context: Context, intent: Intent) {
@@ -117,6 +118,9 @@ class ListaNoticias : AppCompatActivity(), AdapterView.OnItemSelectedListener {
                 }
             }
 
+        if (Filtro == "Politica"){
+
+        }
         ArrayAdapter.createFromResource(
             this, R.array.Seleccion, android.R.layout.simple_spinner_item
         ).also { adapter ->
@@ -134,13 +138,13 @@ class ListaNoticias : AppCompatActivity(), AdapterView.OnItemSelectedListener {
         val texto = spinner.selectedItem.toString()
         Toast.makeText(this, texto, Toast.LENGTH_SHORT).show()
         if (selectedProvince == "Politica"){
-
+            Filtro = "Politica"
         }else if (selectedProvince == "Economia"){
-
+            Filtro = "Economia"
         }else if(selectedProvince == "Cultura"){
-
+            Filtro = "Cultura"
         }else if (selectedProvince == "Deportes"){
-
+            Filtro = "Deportes"
         }
     }
 
