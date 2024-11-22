@@ -19,19 +19,8 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 
 class ListaNoticias : AppCompatActivity(), AdapterView.OnItemSelectedListener {
+    // filtro para intentar hacer el filtrado de la lista
     private var Filtro = ""
-    private val modoAvion = object : BroadcastReceiver() {
-
-        override fun onReceive(context: Context, intent: Intent) {
-
-            val isAirplaneModeOn = intent.getBooleanExtra("state", false)
-            if (isAirplaneModeOn){
-                mostrarToats(isAirplaneModeOn)
-            }else{
-                mostrarToats(isAirplaneModeOn)
-            }
-        }
-    }
 
     lateinit var spinner: Spinner
     private var selectedProvince = ""
@@ -40,22 +29,22 @@ class ListaNoticias : AppCompatActivity(), AdapterView.OnItemSelectedListener {
         enableEdgeToEdge()
         setContentView(R.layout.listanoticias)
         spinner = findViewById(R.id.spinner)
-        registerReceiver(modoAvion, IntentFilter(Intent.ACTION_AIRPLANE_MODE_CHANGED))
 
+        //creamos un array con las opciones de las noticias de la lista
         val opciones = arrayOf(
             "Politica",
             "Economia",
             "Cultura",
             "Deportes"
         )
-
+        //array para titulos de las noticias
         val Titulos = arrayOf(
             "Noticias de politica",
             "Noticias de Economia",
             "Noticias de Cultura",
             "Noticias de Deportes"
         )
-
+        //array de contenidos
         val contenidos = arrayOf(
             "Se ha caido Pedro Sanchez",
             "La economia va mal",
@@ -63,10 +52,13 @@ class ListaNoticias : AppCompatActivity(), AdapterView.OnItemSelectedListener {
             "Se ha caido pique"
         )
 
+        //lista de opciones inicializada de la vista
         val ListViewOpciones = findViewById<ListView>(R.id.ListaOpciones)
+        //creamos un adaptador para la lista
         val adapter = ArrayAdapter(this, android.R.layout.simple_list_item_1, opciones)
         ListViewOpciones.adapter = adapter
 
+        // cuando clickemos sobre una opcion de la lista se cargara un intent con la noticia sacada de los arrays
         ListViewOpciones.onItemClickListener =
             AdapterView.OnItemClickListener { _, _, _, id ->
                 selectedProvince = opciones[id.toInt()]
@@ -77,11 +69,8 @@ class ListaNoticias : AppCompatActivity(), AdapterView.OnItemSelectedListener {
                     var contenidos = contenidos[0]
                     intent.putExtra("Titulo", Titulo)
                     intent.putExtra("contenidos", contenidos)
-                    if (Titulo == "" || contenidos == ""){
-                        Toast.makeText(this, "Introduce todo", Toast.LENGTH_SHORT).show()
-                    }else {
-                        startActivity(intent)
-                    }
+                    startActivity(intent)
+
                 }else if (selectedProvince == "Economia"){
                     val intent = Intent(this, VistaNoticias::class.java)
                     var Titulo = Titulos[1]
@@ -117,10 +106,7 @@ class ListaNoticias : AppCompatActivity(), AdapterView.OnItemSelectedListener {
                     }
                 }
             }
-
-        if (Filtro == "Politica"){
-
-        }
+        // creamos el spinner con sus opciones
         ArrayAdapter.createFromResource(
             this, R.array.Seleccion, android.R.layout.simple_spinner_item
         ).also { adapter ->
@@ -132,7 +118,7 @@ class ListaNoticias : AppCompatActivity(), AdapterView.OnItemSelectedListener {
         //Fijo el listener
         spinner.onItemSelectedListener = this
     }
-
+    // cuando se seleccione un item de la lista se hace un intento de filtrado que no me ha salido
     override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
 
         val texto = spinner.selectedItem.toString()
@@ -149,14 +135,7 @@ class ListaNoticias : AppCompatActivity(), AdapterView.OnItemSelectedListener {
     }
 
     override fun onNothingSelected(parent: AdapterView<*>?) {
-
+    // metodo sin implementar
     }
-    fun mostrarToats(boolean: Boolean){
 
-        if (boolean) {
-            Toast.makeText(this, "modo avion on", Toast.LENGTH_SHORT).show()
-        }else{
-            Toast.makeText(this, "modo avion off", Toast.LENGTH_SHORT).show()
-        }
-    }
 }

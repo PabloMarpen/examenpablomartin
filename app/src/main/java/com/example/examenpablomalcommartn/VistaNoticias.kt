@@ -14,32 +14,24 @@ import androidx.appcompat.app.AppCompatActivity
 
 class VistaNoticias : AppCompatActivity() {
 
-    private val modoAvion = object : BroadcastReceiver() {
-
-        override fun onReceive(context: Context, intent: Intent) {
-
-            val isAirplaneModeOn = intent.getBooleanExtra("state", false)
-            if (isAirplaneModeOn){
-                mostrarToats(isAirplaneModeOn)
-            }else{
-                mostrarToats(isAirplaneModeOn)
-            }
-        }
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.vistanoticias)
-        registerReceiver(modoAvion, IntentFilter(Intent.ACTION_AIRPLANE_MODE_CHANGED))
+
+        //inicializaciones de la vista
         val buttonCompartir = findViewById<Button>(R.id.buttonCompartir)
+        // pillamos los intents que llegan de la otra actividad
         val tituloNoticia = intent.getStringExtra("Titulo")
         val contenidoNoticia = intent.getStringExtra("contenidos")
         val TextViewtituloNoticia = findViewById<TextView>(R.id.tituloNoticia)
         val TextViewcontenidoNoticia = findViewById<TextView>(R.id.contenidoNoticia)
+        // ponemos el contenido pasado por los intents
         TextViewtituloNoticia.text = tituloNoticia
         TextViewcontenidoNoticia.text = contenidoNoticia
 
+        //listener del boton compartir con su Intent para compartir texto
         buttonCompartir.setOnClickListener{
             var contenidoCompartir = TextViewcontenidoNoticia.text.toString()
             val sendIntent: Intent = Intent().apply {
@@ -54,12 +46,5 @@ class VistaNoticias : AppCompatActivity() {
 
 
     }
-    fun mostrarToats(boolean: Boolean){
 
-        if (boolean) {
-            Toast.makeText(this, "modo avion on", Toast.LENGTH_SHORT).show()
-        }else{
-            Toast.makeText(this, "modo avion off", Toast.LENGTH_SHORT).show()
-        }
-    }
 }
